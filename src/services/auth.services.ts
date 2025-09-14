@@ -34,19 +34,19 @@ export const login = async (
   email: string,
   password: string
 ): Promise<ApiResponse<LoginResponsePayload | null>> => {
-  const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
-  const payload = {
-    email,
-    password,
-  };
-
-  const headers = {
-    accept: "application/json",
-    "Content-Type": "application/json",
-  };
-
   try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
+    const payload = {
+      email,
+      password,
+    };
+
+    const headers = {
+      accept: "application/json",
+      "Content-Type": "application/json",
+    };
     const response = await axios.post(endpoint, payload, { headers });
+    console.log("response", response);
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
