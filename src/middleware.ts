@@ -11,19 +11,24 @@ export async function middleware(request: NextRequest) {
   });
 
   const isAuthenticated = !!token;
-  const requestedPage = request.nextUrl.pathname;
-  const publicRoutes = ["/", "/login", "/register"];
+  const requestedPath = request.nextUrl.pathname;
+  const requestedSearch = request.nextUrl.search || "";
+  const publicRoutes = new Set(["/", "/login", "/register"]);
 
-  const isPublicRoute = publicRoutes.includes(requestedPage);
+  const isPublicRoute = publicRoutes.has(requestedPath);
   if (!isAuthenticated && !isPublicRoute) {
     const redirectUrl = new URL("/login", request.url);
-    redirectUrl.searchParams.set("callbackUrl", requestedPage);
+    redirectUrl.searchParams.set(
+      "callbackUrl",
+      `${requestedPath}${requestedSearch}`
+    );
     return NextResponse.redirect(redirectUrl);
   }
 
-  const authPages = ["/login", "/register"];
-  if (isAuthenticated && authPages.includes(requestedPage)) {
-    return NextResponse.redirect(new URL("/", request.url));
+  const authPages = new Set(["/login", "/register"]);
+  if (isAuthenticated && authPages.has(requestedPath)) {
+    const callbackUrl = request.nextUrl.searchParams.get("callbackUrl");
+    return NextResponse.redirect(new URL(callbackUrl || "/", request.url));
   }
 
   return response;
