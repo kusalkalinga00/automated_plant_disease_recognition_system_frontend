@@ -1,8 +1,28 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 const Header = () => {
+  const { data: session } = useSession();
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function onDocMouseDown(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onDocMouseDown);
+    return () => document.removeEventListener("mousedown", onDocMouseDown);
+  }, []);
+
+  const displayName = session?.user?.name || session?.user?.email || "Profile";
+  const initial = (session?.user?.name || session?.user?.email || "?")
+    .charAt(0)
+    .toUpperCase();
+
   return (
     <div className="h-20 bg-card  w-full flex justify-between items-center px-20">
       <div className="flex w-full items-center justify-between">
@@ -13,8 +33,48 @@ const Header = () => {
           <Link href={"/scan"} className="text-white">
             Scan
           </Link>
-          <div>
-            {/* profile menu */}
+          <div className="relative" ref={menuRef}>
+            {session ? (
+              <>
+                <button
+                  type="button"
+                  className="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-muted/50 focus:outline-none"
+                  onClick={() => setOpen((v) => !v)}
+                  aria-haspopup="menu"
+                  aria-expanded={open}
+                >
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+                    {initial}
+                  </span>
+                  <span className="text-sm text-white max-w-[160px] truncate">
+                    {displayName}
+                  </span>
+                </button>
+                {open && (
+                  <div
+                    role="menu"
+                    className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-card shadow-lg z-50"
+                  >
+                    <button
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-muted/60"
+                      onClick={() => {
+                        setOpen(false);
+                        signOut({ callbackUrl: "/login" });
+                      }}
+                    >
+                      Sign out
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="rounded-md px-3 py-2 bg-primary text-primary-foreground text-sm"
+              >
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
       </div>
