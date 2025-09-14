@@ -77,6 +77,11 @@ const RegisterForm = () => {
 
   return (
     <Card className="w-full max-w-sm">
+      <CardHeader>
+        <h2 className="text-2xl font-semibold text-center text-primary">
+          Create an account
+        </h2>
+      </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
