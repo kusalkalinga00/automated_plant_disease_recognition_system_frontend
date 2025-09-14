@@ -10,3 +10,10 @@ export interface IUser {
   email: string;
   is_admin: boolean;
 }
+
+export interface LoginResponsePayload {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  user: IUser;
+}
