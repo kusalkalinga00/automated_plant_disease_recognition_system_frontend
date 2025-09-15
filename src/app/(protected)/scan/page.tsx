@@ -1,7 +1,8 @@
+import ScanView from "@/view/scan/ScanView";
 import React from "react";
 
 const ScanPage = () => {
-  return <div>page</div>;
+  return <ScanView />;
 };
 
 export default ScanPage;
