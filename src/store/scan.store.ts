@@ -11,12 +11,17 @@ interface ScanStore {
   scanData: ScanData | null;
   setScanData: (data: ScanData) => void;
   clearScanData: () => void;
+  isScanDataLoading: boolean;
+  setIsScanDataLoading: (loading: boolean) => void;
 }
 
 const useScanStore = create<ScanStore>()((set) => ({
   scanData: null,
   setScanData: (data: ScanData) => set({ scanData: data }),
   clearScanData: () => set({ scanData: null }),
+  isScanDataLoading: false,
+  setIsScanDataLoading: (loading: boolean) =>
+    set({ isScanDataLoading: loading }),
 }));
 
 export default useScanStore;

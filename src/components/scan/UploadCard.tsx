@@ -17,14 +17,20 @@ export const UploadCard: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const isAuthed = Boolean(session?.accessToken);
   const setScanData = useScanStore((state) => state.setScanData);
+  const isScanDataLoading = useScanStore((state) => state.isScanDataLoading);
+  const setIsScanDataLoading = useScanStore(
+    (state) => state.setIsScanDataLoading
+  );
 
   const uploadImageMutation = useMutation({
     mutationFn: async () => {
+      setIsScanDataLoading(true);
       if (!selectedFile) throw new Error("No file selected");
       if (!session?.accessToken) throw new Error("Not authenticated");
       return await createScan(selectedFile, session.accessToken);
     },
     onSuccess: (data) => {
+      setIsScanDataLoading(false);
       if (data.success) {
         setScanData(data.payload as ScanData);
         toast.success("Uploaded successfully");
@@ -35,6 +41,7 @@ export const UploadCard: React.FC = () => {
       }
     },
     onError: (err: any) => {
+      setIsScanDataLoading(false);
       toast.error("Upload failed", {
         description: err?.message ?? "Please try again",
       });

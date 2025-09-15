@@ -4,6 +4,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import PredictionPanel from "./PredictionPanel";
 import DetailsPanel from "./DetailsPanel";
+import useScanStore from "@/store/scan.store";
 
 type ResultTabsProps = {
   loading?: boolean;

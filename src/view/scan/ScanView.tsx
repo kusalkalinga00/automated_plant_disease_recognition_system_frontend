@@ -10,6 +10,7 @@ import useScanStore from "@/store/scan.store";
 
 const ScanView = () => {
   const scanData = useScanStore((state) => state.scanData);
+  const isScanDataLoading = useScanStore((state) => state.isScanDataLoading);
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 lg:py-8">
       {/* Header strip */}
@@ -44,7 +45,7 @@ const ScanView = () => {
 
         {/* Right column (results) */}
         <div className="lg:col-span-7 space-y-6">
-          <ResultTabs loading={false} />
+          <ResultTabs loading={isScanDataLoading} />
           <ModelStatusCard />
         </div>
       </div>
