@@ -2,8 +2,11 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import useScanStore from "@/store/scan.store";
 
 export const DetailsPanel: React.FC = () => {
+  const scanData = useScanStore((state) => state.scanData);
+
   return (
     <Card className="rounded-xl shadow-sm">
       <CardHeader className="flex-row items-center justify-between">
@@ -24,13 +27,10 @@ export const DetailsPanel: React.FC = () => {
           {/* Disease info */}
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">
-              Brinjal – Athilacna Beetles
+              {scanData?.disease.display_name}
             </h3>
             <p className="text-sm text-muted-foreground">
-              Athilacna beetles can cause significant foliar damage to brinjal
-              (eggplant), resulting in reduced photosynthesis and yield. Early
-              detection and integrated management are recommended to minimize
-              crop loss.
+              {scanData?.disease.description}
             </p>
           </div>
 
@@ -38,33 +38,12 @@ export const DetailsPanel: React.FC = () => {
           <div className="space-y-3">
             <h4 className="text-sm font-medium">Treatments</h4>
             <div className="space-y-3">
-              {[
-                {
-                  type: "ORGANIC",
-                  title: "Neem oil spray",
-                  dosage: "5 ml/L",
-                  instructions: "Apply in the evening; repeat every 7–10 days.",
-                },
-                {
-                  type: "ORGANIC",
-                  title: "Hand-picking & sanitation",
-                  dosage: "—",
-                  instructions:
-                    "Remove affected leaves; maintain field hygiene.",
-                },
-                {
-                  type: "CHEMICAL",
-                  title: "Registered contact insecticide",
-                  dosage: "Per label",
-                  instructions:
-                    "Follow local regulations and safety intervals.",
-                },
-              ].map((t) => (
+              {scanData?.treatments.map((t) => (
                 <div key={t.title} className="rounded-lg border p-3">
                   <div className="mb-1 flex items-center justify-between gap-2">
                     <span
                       className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
-                        t.type === "CHEMICAL"
+                        t.type === "chemical"
                           ? "bg-rose-50 text-rose-700"
                           : "bg-emerald-50 text-emerald-700"
                       }`}
