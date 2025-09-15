@@ -35,3 +35,13 @@ export interface CreateScanResponsePayload {
   disease: DiseaseInfo;
   treatments: TreatmentItem[];
 }
+
+export interface ModelHealthPayload {
+  service: string;
+  env: string;
+  time_utc: string; // ISO timestamp
+  model_loaded: boolean;
+  num_classes: number;
+  img_size: [number, number];
+  model_version: string;
+}

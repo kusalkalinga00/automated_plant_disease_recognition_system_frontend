@@ -1,6 +1,9 @@
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/common.types";
-import { CreateScanResponsePayload } from "@/types/scan.types";
+import {
+  CreateScanResponsePayload,
+  ModelHealthPayload,
+} from "@/types/scan.types";
 
 export async function createScan(
   file: File,
@@ -20,6 +23,26 @@ export async function createScan(
     });
 
     return response.data as ApiResponse<CreateScanResponsePayload>;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const errorPayload = axiosError.response?.data || {
+      message: "Something went wrong",
+      success: false,
+      payload: null,
+    };
+    return errorPayload as ApiResponse<null>;
+  }
+}
+
+export async function getModelHealth(): Promise<
+  ApiResponse<ModelHealthPayload | null>
+> {
+  try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/health`;
+    const response = await axios.get(endpoint, {
+      headers: { Accept: "application/json" },
+    });
+    return response.data as ApiResponse<ModelHealthPayload>;
   } catch (error) {
     const axiosError = error as AxiosError;
     const errorPayload = axiosError.response?.data || {

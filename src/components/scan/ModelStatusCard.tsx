@@ -3,8 +3,22 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { getModelHealth } from "@/services/scan.services";
 
 export const ModelStatusCard: React.FC = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["model-health"],
+    queryFn: getModelHealth,
+    staleTime: 60_000,
+  });
+
+  const payload = data?.payload ?? null;
+  const modelLoaded = payload?.model_loaded ?? false;
+  const classes = payload?.num_classes ?? 0;
+  const size = payload?.img_size ?? [224, 224];
+  const version = payload?.model_version ?? "—";
+
   return (
     <Card className="rounded-xl shadow-sm">
       <CardHeader>
@@ -14,24 +28,23 @@ export const ModelStatusCard: React.FC = () => {
         <div className="grid grid-cols-3 gap-4 text-sm">
           <div>
             <div className="text-muted-foreground">Model Loaded</div>
-            <div className="font-medium">Yes</div>
+            <div className="font-medium">
+              {isLoading ? "—" : modelLoaded ? "Yes" : "No"}
+            </div>
           </div>
           <div>
             <div className="text-muted-foreground">Classes</div>
-            <div className="font-medium">6</div>
+            <div className="font-medium">{isLoading ? "—" : classes}</div>
           </div>
           <div>
             <div className="text-muted-foreground">Image Size</div>
-            <div className="font-medium">224×224</div>
+            <div className="font-medium">
+              {isLoading ? "—" : `${size[0]}×${size[1]}`}
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button size="sm" disabled title="UI only">
-            Upload &amp; Scan
-          </Button>
-          <Button size="sm" variant="outline" disabled title="UI only">
-            Save to history
-          </Button>
+        <div className="text-xs text-muted-foreground">
+          {isLoading ? "" : `Version: ${version}`}
         </div>
       </CardContent>
     </Card>
