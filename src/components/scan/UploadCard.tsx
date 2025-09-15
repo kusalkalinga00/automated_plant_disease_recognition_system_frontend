@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { createScan } from "@/services/scan.services";
 import { toast } from "sonner";
+import useScoreStore, { ScanData } from "@/store/scan.store";
 
 type UploadCardProps = {
   hasFile?: boolean;
@@ -21,6 +22,8 @@ export const UploadCard: React.FC<UploadCardProps> = () => {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const isAuthed = Boolean(session?.accessToken);
+  const setScanData = useScoreStore((state) => state.setScanData);
+  const scanData = useScoreStore((state) => state.scanData);
 
   const uploadImageMutation = useMutation({
     mutationFn: async () => {
@@ -30,6 +33,7 @@ export const UploadCard: React.FC<UploadCardProps> = () => {
     },
     onSuccess: (data) => {
       if (data.success) {
+        setScanData(data.payload as ScanData);
         toast.success("Uploaded successfully");
         // Invalidate any future queries for scans/history (if added later)
         queryClient.invalidateQueries({ queryKey: ["scans"] });

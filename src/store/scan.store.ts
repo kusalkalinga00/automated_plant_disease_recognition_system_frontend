@@ -1,7 +1,7 @@
 import { DiseaseInfo, ScanRecord, TreatmentItem } from "@/types/scan.types";
 import { create } from "zustand";
 
-interface ScanData {
+export interface ScanData {
   scan: ScanRecord;
   disease: DiseaseInfo;
   treatments: TreatmentItem[];
