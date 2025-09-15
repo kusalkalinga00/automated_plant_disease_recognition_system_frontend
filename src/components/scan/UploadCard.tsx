@@ -17,7 +17,6 @@ export const UploadCard: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const isAuthed = Boolean(session?.accessToken);
   const setScanData = useScanStore((state) => state.setScanData);
-  const isScanDataLoading = useScanStore((state) => state.isScanDataLoading);
   const setIsScanDataLoading = useScanStore(
     (state) => state.setIsScanDataLoading
   );
@@ -40,7 +39,7 @@ export const UploadCard: React.FC = () => {
         toast.error(data.message ?? "Upload failed");
       }
     },
-    onError: (err: any) => {
+    onError: (err) => {
       setIsScanDataLoading(false);
       toast.error("Upload failed", {
         description: err?.message ?? "Please try again",
