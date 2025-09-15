@@ -13,10 +13,10 @@ interface ScanStore {
   clearScanData: () => void;
 }
 
-const useScoreStore = create<ScanStore>()((set) => ({
+const useScanStore = create<ScanStore>()((set) => ({
   scanData: null,
   setScanData: (data: ScanData) => set({ scanData: data }),
   clearScanData: () => set({ scanData: null }),
 }));
 
-export default useScoreStore;
+export default useScanStore;

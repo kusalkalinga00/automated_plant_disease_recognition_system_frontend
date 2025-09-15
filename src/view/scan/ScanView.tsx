@@ -6,8 +6,10 @@ import { ResultTabs } from "@/components/scan/ResultTabs";
 import { ModelStatusCard } from "@/components/scan/ModelStatusCard";
 import { Button } from "@/components/ui/button";
 import { History } from "lucide-react";
+import useScanStore from "@/store/scan.store";
 
 const ScanView = () => {
+  const scanData = useScanStore((state) => state.scanData);
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 lg:py-8">
       {/* Header strip */}
@@ -33,12 +35,10 @@ const ScanView = () => {
       <div className="grid gap-6 lg:grid-cols-12">
         {/* Left column (upload + preview) */}
         <div className="lg:col-span-5 space-y-6">
-          <UploadCard hasFile={false} />
+          <UploadCard />
           <PreviewCard
-            hasFile
-            imageUrl=""
-            fileName="leaf.jpg"
-            fileSizeText="1.2 MB"
+            hasFile={scanData?.scan.image_url ? true : false}
+            imageUrl={scanData?.scan.image_url || ""}
           />
         </div>
 

@@ -2,22 +2,17 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 
 type PreviewCardProps = {
   hasFile?: boolean;
   imageUrl?: string;
-  fileName?: string;
-  fileSizeText?: string;
 };
 
 export const PreviewCard: React.FC<PreviewCardProps> = ({
-  hasFile = true,
-  imageUrl = "/placeholder/leaf.jpg",
-  fileName = "leaf.jpg",
-  fileSizeText = "1.2 MB",
+  hasFile,
+  imageUrl,
 }) => {
   return (
     <Card className="rounded-xl shadow-sm">
@@ -35,7 +30,7 @@ export const PreviewCard: React.FC<PreviewCardProps> = ({
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border bg-muted/20">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image
-                src={imageUrl}
+                src={imageUrl!}
                 alt="Leaf preview"
                 fill
                 className="object-cover"
@@ -43,18 +38,14 @@ export const PreviewCard: React.FC<PreviewCardProps> = ({
                 priority
               />
             </div>
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <span className="truncate">{fileName}</span>
-              <span>{fileSizeText}</span>
-            </div>
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" disabled title="UI only">
                 Replace
               </Button>
               <Button variant="destructive" size="sm" disabled title="UI only">
                 Clear
               </Button>
-            </div>
+            </div> */}
           </div>
         )}
       </CardContent>
