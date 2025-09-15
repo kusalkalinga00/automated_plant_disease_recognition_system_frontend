@@ -5,6 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { createScan } from "@/services/scan.services";
+import { toast } from "sonner";
 
 type UploadCardProps = {
   hasFile?: boolean;
@@ -13,6 +16,44 @@ type UploadCardProps = {
 };
 
 export const UploadCard: React.FC<UploadCardProps> = () => {
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const isAuthed = Boolean(session?.accessToken);
+
+  const uploadImageMutation = useMutation({
+    mutationFn: async () => {
+      if (!selectedFile) throw new Error("No file selected");
+      if (!session?.accessToken) throw new Error("Not authenticated");
+      return await createScan(selectedFile, session.accessToken);
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success("Scan created", {
+          description: data.message ?? "Uploaded successfully",
+        });
+        // Invalidate any future queries for scans/history (if added later)
+        queryClient.invalidateQueries({ queryKey: ["scans"] });
+      } else {
+        toast.error("Upload failed", {
+          description: data.message ?? "Please try again",
+        });
+      }
+    },
+    onError: (err: any) => {
+      toast.error("Upload failed", {
+        description: err?.message ?? "Please try again",
+      });
+    },
+  });
+
+  const onBrowse = () => inputRef.current?.click();
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (f) setSelectedFile(f);
+  };
+
   return (
     <Card className="rounded-xl shadow-sm">
       <CardHeader>
@@ -24,7 +65,15 @@ export const UploadCard: React.FC<UploadCardProps> = () => {
           aria-label="Upload image"
           tabIndex={0}
           className="group grid place-items-center gap-3 rounded-xl border border-dashed p-10 text-center outline-none transition-colors hover:border-primary focus-visible:ring-[3px]"
+          onClick={onBrowse}
         >
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={onFileChange}
+          />
           <div className="grid size-12 place-items-center rounded-full bg-primary/10 text-primary">
             <Upload className="size-6" />
           </div>
@@ -33,15 +82,27 @@ export const UploadCard: React.FC<UploadCardProps> = () => {
             browse
           </div>
           <p className="text-xs text-muted-foreground">
-            JPEG/JPG · Max 4 MB · Good lighting recommended
+            JPEG/PNG/WebP · Max 8 MB · Good lighting recommended
           </p>
         </div>
 
         <div className="flex justify-end">
-          <Button size="lg" disabled title="UI only">
-            Upload &amp; Scan
+          <Button
+            size="lg"
+            title="Upload selected image"
+            disabled={
+              !selectedFile || !isAuthed || uploadImageMutation.isPending
+            }
+            onClick={() => uploadImageMutation.mutate()}
+          >
+            {uploadImageMutation.isPending ? "Uploading..." : "Upload & Scan"}
           </Button>
         </div>
+        {!isAuthed && (
+          <p className="text-right text-xs text-muted-foreground">
+            Sign in to enable uploading
+          </p>
+        )}
       </CardContent>
     </Card>
   );
