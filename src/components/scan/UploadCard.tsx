@@ -4,6 +4,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type UploadCardProps = {
   hasFile?: boolean;
@@ -32,7 +33,7 @@ export const UploadCard: React.FC<UploadCardProps> = () => {
             browse
           </div>
           <p className="text-xs text-muted-foreground">
-            JPEG/PNG/WebP · Max 8 MB · Good lighting recommended
+            JPEG/JPG · Max 4 MB · Good lighting recommended
           </p>
         </div>
 
