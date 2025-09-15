@@ -36,7 +36,7 @@ const ScanView = () => {
           <UploadCard hasFile={false} />
           <PreviewCard
             hasFile
-            imageUrl="/placeholder/leaf.jpg"
+            imageUrl=""
             fileName="leaf.jpg"
             fileSizeText="1.2 MB"
           />
