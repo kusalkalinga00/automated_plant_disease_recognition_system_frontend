@@ -7,15 +7,15 @@ export async function createScan(
   accessToken: string
 ): Promise<ApiResponse<CreateScanResponsePayload | null>> {
   try {
-    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/scans`;
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/scans`;
     const form = new FormData();
-    form.append("image", file);
+    form.append("file", file);
 
     const response = await axios.post(endpoint, form, {
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${accessToken}`,
-        // Do NOT set Content-Type manually for FormData in browsers
+        // "Content-Type": "multipart/form-data",
       },
     });
 

@@ -30,15 +30,11 @@ export const UploadCard: React.FC<UploadCardProps> = () => {
     },
     onSuccess: (data) => {
       if (data.success) {
-        toast.success("Scan created", {
-          description: data.message ?? "Uploaded successfully",
-        });
+        toast.success("Uploaded successfully");
         // Invalidate any future queries for scans/history (if added later)
         queryClient.invalidateQueries({ queryKey: ["scans"] });
       } else {
-        toast.error("Upload failed", {
-          description: data.message ?? "Please try again",
-        });
+        toast.error(data.message ?? "Upload failed");
       }
     },
     onError: (err: any) => {
