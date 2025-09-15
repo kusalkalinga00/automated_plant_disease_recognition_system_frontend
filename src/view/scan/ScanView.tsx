@@ -5,7 +5,6 @@ import { PreviewCard } from "@/components/scan/PreviewCard";
 import { ResultTabs } from "@/components/scan/ResultTabs";
 import { ModelStatusCard } from "@/components/scan/ModelStatusCard";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { History } from "lucide-react";
 
 const ScanView = () => {
