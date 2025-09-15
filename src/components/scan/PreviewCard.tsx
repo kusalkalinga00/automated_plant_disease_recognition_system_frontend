@@ -28,7 +28,6 @@ export const PreviewCard: React.FC<PreviewCardProps> = ({
         ) : (
           <div className="space-y-3">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border bg-muted/20">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image
                 src={imageUrl!}
                 alt="Leaf preview"
