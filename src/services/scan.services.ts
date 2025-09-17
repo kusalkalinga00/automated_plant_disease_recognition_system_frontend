@@ -80,3 +80,37 @@ export async function getScans(
     return errorPayload as ApiResponse<null>;
   }
 }
+
+export async function getScanById(
+  accessToken: string,
+  scanId: string
+): Promise<
+  ApiResponse<{
+    scan: ScanRecord;
+    disease: import("@/types/scan.types").DiseaseInfo;
+    treatments: import("@/types/scan.types").TreatmentItem[];
+  } | null>
+> {
+  try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/scans/${scanId}`;
+    const response = await axios.get(endpoint, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data as ApiResponse<{
+      scan: ScanRecord;
+      disease: import("@/types/scan.types").DiseaseInfo;
+      treatments: import("@/types/scan.types").TreatmentItem[];
+    }>;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const errorPayload = axiosError.response?.data || {
+      message: "Something went wrong",
+      success: false,
+      payload: null,
+    };
+    return errorPayload as ApiResponse<null>;
+  }
+}
