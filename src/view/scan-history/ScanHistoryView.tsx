@@ -67,12 +67,12 @@ const ScanHistoryView = () => {
                       key={scan.id}
                       className="border-b last:border-none hover:bg-muted/40 cursor-pointer"
                       onClick={() =>
-                        (window.location.href = `/protected/scan-history/${scan.id}`)
+                        (window.location.href = `/scan-history/${scan.id}`)
                       }
                     >
                       <td className="py-2 pr-4">
                         <Link
-                          href={`/protected/scan-history/${scan.id}`}
+                          href={`/scan-history/${scan.id}`}
                           onClick={(e) => e.stopPropagation()}
                         >
                           <img
@@ -84,7 +84,7 @@ const ScanHistoryView = () => {
                       </td>
                       <td className="py-2 pr-4 font-medium">
                         <Link
-                          href={`/protected/scan-history/${scan.id}`}
+                          href={`/scan-history/${scan.id}`}
                           className="hover:underline"
                           onClick={(e) => e.stopPropagation()}
                         >
