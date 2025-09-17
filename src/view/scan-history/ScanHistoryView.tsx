@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useScanHistory } from "@/hooks/use-scan-history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const PAGE_SIZE = 5;
 
@@ -79,6 +80,11 @@ const ScanHistoryView = () => {
                       <td className="py-2 pr-4">{scan.model_version}</td>
                       <td className="py-2 pr-4">
                         {new Date(scan.created_at).toLocaleString()}
+                      </td>
+                      <td className="py-2 pr-4">
+                        <Link href={`scan-history/${scan.id}`} className="">
+                          View
+                        </Link>
                       </td>
                     </tr>
                   ))}
