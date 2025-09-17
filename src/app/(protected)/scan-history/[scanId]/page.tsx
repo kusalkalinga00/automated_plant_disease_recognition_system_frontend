@@ -1,10 +1,10 @@
 import ScanHistoryInnerPage from "@/view/scan-history-inner-page/ScanHistoryInnerPage";
 
-export default function ScanInnerPage({
+export default async function ScanInnerPage({
   params,
 }: {
   params: { scanId: string };
 }) {
-  const { scanId } = params;
+  const { scanId } = await params;
   return <ScanHistoryInnerPage scanId={scanId} />;
 }
