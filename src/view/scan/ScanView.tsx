@@ -7,10 +7,12 @@ import { ModelStatusCard } from "@/components/scan/ModelStatusCard";
 import { Button } from "@/components/ui/button";
 import { History } from "lucide-react";
 import useScanStore from "@/store/scan.store";
+import { useRouter } from "next/navigation";
 
 const ScanView = () => {
   const scanData = useScanStore((state) => state.scanData);
   const isScanDataLoading = useScanStore((state) => state.isScanDataLoading);
+  const router = useRouter();
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 lg:py-8">
       {/* Header strip */}
@@ -23,10 +25,10 @@ const ScanView = () => {
         </div>
         <Button
           variant="ghost"
-          className="gap-2"
+          className="gap-2 cursor-pointer"
           title="UI only"
-          disabled
           aria-label="History"
+          onClick={() => router.push("/scan-history")}
         >
           <History className="size-4" /> History
         </Button>
