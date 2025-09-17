@@ -68,7 +68,7 @@ const ScanHistoryInnerPage: React.FC<ScanHistoryInnerPageProps> = ({
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Scan Details</h1>
         <Button asChild variant="outline" size="sm">
-          <Link href="/protected/scan-history">Back to history</Link>
+          <Link href="/scan-history">Back to history</Link>
         </Button>
       </div>
 

@@ -33,6 +33,9 @@ const Header = () => {
           <Link href={"/scan"} className="text-white">
             Scan
           </Link>
+          <Link href={"/scan-history"} className="text-white">
+            Scan History
+          </Link>
           <div className="relative" ref={menuRef}>
             {session ? (
               <>
