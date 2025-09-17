@@ -14,8 +14,20 @@ const ScanHistoryView = () => {
 
   const query = useScanHistory({ accessToken, page, pageSize: PAGE_SIZE });
 
-  const totalPages = query.data?.meta?.total_pages || 1;
+  const meta = query.data?.meta;
+  const totalItems = meta?.total ?? meta?.total_items;
+  // derive total pages if we have total items, else fallback to provided total_pages
+  const derivedTotalPages = totalItems
+    ? Math.max(1, Math.ceil(totalItems / PAGE_SIZE))
+    : meta?.total_pages;
+  const totalPages = derivedTotalPages ?? null; // null when unknown
   const scans = query.data?.payload || [];
+
+  const hasMeta = !!totalPages; // backend supplied or we derived from total items
+  const hasPrevPage = page > 1;
+  const hasNextPage = hasMeta
+    ? page < (totalPages as number)
+    : scans.length === PAGE_SIZE; // infer: if got a full page, likely more
 
   return (
     <div className="space-y-4 mx-auto max-w-7xl px-4 py-6 lg:py-8 ">
@@ -77,13 +89,13 @@ const ScanHistoryView = () => {
 
           <div className="flex items-center justify-between pt-4">
             <p className="text-xs text-muted-foreground">
-              Page {page} of {totalPages}
+              {hasMeta ? `Page ${page} of ${totalPages}` : `Page ${page}`}
             </p>
             <div className="space-x-2">
               <Button
                 variant="outline"
                 size="sm"
-                disabled={page === 1 || query.isFetching}
+                disabled={!hasPrevPage || query.isFetching}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
               >
                 Previous
@@ -91,8 +103,8 @@ const ScanHistoryView = () => {
               <Button
                 variant="outline"
                 size="sm"
-                disabled={page === totalPages || query.isFetching}
-                onClick={() => setPage((p) => (p < totalPages ? p + 1 : p))}
+                disabled={!hasNextPage || query.isFetching}
+                onClick={() => setPage((p) => (hasNextPage ? p + 1 : p))}
               >
                 Next
               </Button>
