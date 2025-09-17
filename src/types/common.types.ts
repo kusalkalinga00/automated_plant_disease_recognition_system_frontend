@@ -6,8 +6,11 @@ export interface ApiResponse<T> {
 }
 
 export interface PaginationMeta {
-  page: number;
-  page_size: number;
-  total_pages: number;
-  total_items: number;
+  page: number; // current page (1-based)
+  page_size: number; // items per page
+  // Unified support:
+  // Backend may send (total) OR (total_items) OR (total_pages + total_items)
+  total?: number; // total items (preferred simple form)
+  total_items?: number; // alternative name for total items
+  total_pages?: number; // when backend precomputes pages
 }
