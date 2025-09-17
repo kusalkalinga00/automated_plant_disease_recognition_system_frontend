@@ -10,7 +10,7 @@ export interface ScanRecord {
   image_url: string;
   predicted_label: string;
   confidence: number; // 0..1
-  top_k: TopKItem[];
+  top_k?: TopKItem[]; // optional in history list responses
   model_version: string;
   created_at: string; // ISO timestamp
 }
@@ -45,3 +45,5 @@ export interface ModelHealthPayload {
   img_size: [number, number];
   model_version: string;
 }
+
+export type ScanHistoryResponsePayload = ScanRecord[];

@@ -1,7 +1,8 @@
+import ScanHistoryView from "@/view/scan-history/ScanHistoryView";
 import React from "react";
 
 const ScanHistory = () => {
-  return <div>ScanHistory</div>;
+  return <ScanHistoryView />;
 };
 
 export default ScanHistory;

@@ -3,6 +3,7 @@ import { ApiResponse } from "@/types/common.types";
 import {
   CreateScanResponsePayload,
   ModelHealthPayload,
+  ScanRecord,
 } from "@/types/scan.types";
 
 export async function createScan(
@@ -43,6 +44,32 @@ export async function getModelHealth(): Promise<
       headers: { Accept: "application/json" },
     });
     return response.data as ApiResponse<ModelHealthPayload>;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const errorPayload = axiosError.response?.data || {
+      message: "Something went wrong",
+      success: false,
+      payload: null,
+    };
+    return errorPayload as ApiResponse<null>;
+  }
+}
+
+export async function getScans(
+  accessToken: string,
+  page: number = 1,
+  pageSize: number = 5
+): Promise<ApiResponse<ScanRecord[] | null>> {
+  try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/scans`;
+    const response = await axios.get(endpoint, {
+      params: { page, page_size: pageSize },
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data as ApiResponse<ScanRecord[]>;
   } catch (error) {
     const axiosError = error as AxiosError;
     const errorPayload = axiosError.response?.data || {
