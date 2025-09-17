@@ -63,16 +63,33 @@ const ScanHistoryView = () => {
                 </thead>
                 <tbody>
                   {scans.map((scan) => (
-                    <tr key={scan.id} className="border-b last:border-none">
+                    <tr
+                      key={scan.id}
+                      className="border-b last:border-none hover:bg-muted/40 cursor-pointer"
+                      onClick={() =>
+                        (window.location.href = `/protected/scan-history/${scan.id}`)
+                      }
+                    >
                       <td className="py-2 pr-4">
-                        <img
-                          src={scan.image_url}
-                          alt={scan.predicted_label}
-                          className="h-12 w-12 object-cover rounded-md border"
-                        />
+                        <Link
+                          href={`/protected/scan-history/${scan.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <img
+                            src={scan.image_url}
+                            alt={scan.predicted_label}
+                            className="h-12 w-12 object-cover rounded-md border"
+                          />
+                        </Link>
                       </td>
                       <td className="py-2 pr-4 font-medium">
-                        {scan.predicted_label}
+                        <Link
+                          href={`/protected/scan-history/${scan.id}`}
+                          className="hover:underline"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {scan.predicted_label}
+                        </Link>
                       </td>
                       <td className="py-2 pr-4">
                         {(scan.confidence * 100).toFixed(1)}%
@@ -80,11 +97,6 @@ const ScanHistoryView = () => {
                       <td className="py-2 pr-4">{scan.model_version}</td>
                       <td className="py-2 pr-4">
                         {new Date(scan.created_at).toLocaleString()}
-                      </td>
-                      <td className="py-2 pr-4">
-                        <Link href={`scan-history/${scan.id}`} className="">
-                          View
-                        </Link>
                       </td>
                     </tr>
                   ))}
