@@ -79,6 +79,7 @@ const Header = () => {
               </Link>
             )}
           </div>
+          <LocaleSwitcher />
         </div>
       </div>
     </div>
