@@ -1,0 +1,22 @@
+{
+  "System": {
+    "title": "තත්පර කිහිපයකින් ශාක රෝග හඳුනා ගන්න"
+  },
+  "Languages": {
+    "title": "භාෂා",
+    "place_holder": "භාෂාවක් තෝරන්න",
+    "english": "English",
+    "tamil": "தமிழ்",
+    "sinhala": "සිංහල"
+  },
+  "FileUploader": {
+    "description": "රූපය උඩුගත කිරීමට මෙම ප්‍රදේශයට පින්තූරය ක්ලික් කරන්න හෝ ඇදගෙන යන්න."
+  },
+  "Camera": {
+    "use_camera": "කැමරාව භාවිතා කරන්න",
+    "capture": "අල්ලා ගැනීම"
+  },
+  "FindDisease": {
+    "find_disease": "රෝගය සොයා ගන්න"
+  }
+}
