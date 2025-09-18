@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
+import LocaleSwitcher from "./LocaleSwitcher";
 
 const Header = () => {
   const { data: session } = useSession();
