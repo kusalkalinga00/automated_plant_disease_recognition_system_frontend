@@ -1,6 +1,7 @@
 {
-  "System": {
-    "title": "Detect plant diseases in seconds"
+  "home": {
+    "title": "Detect plant diseases in seconds",
+    "subtitle": "Upload a leaf photo. Get instant diagnosis, description, and solutions."
   },
   "Languages": {
     "title": "Languages",

@@ -18,7 +18,7 @@ const HomeView = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const t = useTranslations("System");
+  const t = useTranslations("home");
 
   const primaryLabel = session?.user ? "Upload & scan" : "Sign in to scan";
   const primaryHref = session?.user ? "/scan" : "/login";
@@ -46,8 +46,7 @@ const HomeView = () => {
           {t("title")}
         </h1>
         <p className="max-w-2xl text-pretty text-muted-foreground sm:text-lg">
-          Upload a leaf photo. Get instant diagnosis, description, and
-          solutions.
+          {t("subtitle")}
         </p>
 
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
