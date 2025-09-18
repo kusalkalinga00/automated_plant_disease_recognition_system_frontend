@@ -1,0 +1,22 @@
+{
+  "System": {
+    "title": "Detect plant diseases in seconds"
+  },
+  "Languages": {
+    "title": "Languages",
+    "place_holder": "Select a language",
+    "english": "English",
+    "tamil": "தமிழ்",
+    "sinhala": "සිංහල"
+  },
+  "FileUploader": {
+    "description": "Click or drag and drop image to this area to upload image."
+  },
+  "Camera": {
+    "use_camera": "Use camera",
+    "capture": "Capture"
+  },
+  "FindDisease": {
+    "find_disease": "Find Disease"
+  }
+}

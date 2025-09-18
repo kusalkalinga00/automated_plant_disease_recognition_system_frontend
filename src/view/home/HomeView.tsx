@@ -12,10 +12,13 @@ import {
 } from "@/components/ui/card";
 import { Leaf, Sparkles, Upload } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 const HomeView = () => {
   const router = useRouter();
   const { data: session } = useSession();
+
+  const t = useTranslations("System");
 
   const primaryLabel = session?.user ? "Upload & scan" : "Sign in to scan";
   const primaryHref = session?.user ? "/scan" : "/login";
@@ -40,7 +43,7 @@ const HomeView = () => {
           AI-powered plant health assistant
         </span>
         <h1 className="font-serif text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-          Detect plant diseases in seconds
+          {t("title")}
         </h1>
         <p className="max-w-2xl text-pretty text-muted-foreground sm:text-lg">
           Upload a leaf photo. Get instant diagnosis, description, and
