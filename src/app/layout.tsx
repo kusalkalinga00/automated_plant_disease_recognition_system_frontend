@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/common/Header";
 import AuthProvider from "@/providers/auth-provider";
 import ReactQueryProvider from "@/providers/react-query-provider";
-import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,18 +34,16 @@ export default function RootLayout({
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            <NextIntlClientProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="dark"
-                enableSystem
-                disableTransitionOnChange
-              >
-                <Header />
-                {children}
-                <Toaster position="top-right" />
-              </ThemeProvider>
-            </NextIntlClientProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Header />
+              {children}
+              <Toaster position="top-right" />
+            </ThemeProvider>
           </body>
         </html>
       </AuthProvider>
