@@ -51,6 +51,10 @@
       "toast_failed": "උඩුගත කිරීම අසාර්ථක විය",
       "retry": "කරුණාකර නැවත උත්සාහ කරන්න",
       "selected_prefix": "තෝරාගන්නා ලද්දේ:"
+    },
+    "result_tabs": {
+      "prediction": "අනාවැකි",
+      "details": "විස්තර"
     }
   }
 }

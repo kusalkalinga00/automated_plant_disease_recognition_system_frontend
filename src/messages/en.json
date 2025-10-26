@@ -51,6 +51,10 @@
       "toast_failed": "Upload failed",
       "retry": "Please try again",
       "selected_prefix": "Selected:"
+    },
+    "result_tabs": {
+      "prediction": "Prediction",
+      "details": "Details"
     }
   }
 }
