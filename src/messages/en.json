@@ -1,7 +1,19 @@
 {
   "home": {
     "title": "Detect plant diseases in seconds",
-    "subtitle": "Upload a leaf photo. Get instant diagnosis, description, and solutions."
+    "subtitle": "Upload a leaf photo. Get instant diagnosis, description, and solutions.",
+    "upload_and_scan": "Upload & Scan",
+    "how_its_works": "How it works",
+    "three_simple_steps_from_photo_to_treatment": "Three simple steps from photo to treatment.",
+    "upload_a_leaf_photo": "Upload a leaf photo",
+    "card1_sentence_1": "Use a clear photo in good light. We support JPG, PNG, and HEIC.",
+    "card1_sentence_2": "Drag and drop or select from your device. We handle EXIF safely.",
+    "card2_title": "Get diagnosis",
+    "card2_sentence_1": "Model predicts disease label with confidence in seconds.",
+    "card2_sentence_2": "See a friendly summary, confidence score, and what it means.",
+    "card3_title": "Treat with recommendations",
+    "card3_sentence_1": "Get steps to mitigate and manage the disease effectively.",
+    "card3_sentence_2": "Practical tips, products, and prevention guidance tailored to the crop."
   },
   "Languages": {
     "title": "Languages",

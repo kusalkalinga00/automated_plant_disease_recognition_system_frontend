@@ -20,7 +20,7 @@ const HomeView = () => {
 
   const t = useTranslations("home");
 
-  const primaryLabel = session?.user ? "Upload & scan" : "Sign in to scan";
+  const primaryLabel = session?.user ? t("upload_and_scan") : "Sign in to scan";
   const primaryHref = session?.user ? "/scan" : "/login";
 
   const onPrimaryClick = () => {
@@ -60,25 +60,16 @@ const HomeView = () => {
             </a>
           </Button>
         </div>
-
-        {/* Hero visual */}
-        {/* <div className="mt-8 w-full max-w-4xl rounded-xl border bg-card/60 p-3 shadow-md sm:mt-12">
-          <div className="grid grid-cols-3 items-center gap-3 sm:gap-4">
-            <div className="aspect-video w-full rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-transparent" />
-            <div className="aspect-video w-full rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-transparent" />
-            <div className="aspect-video w-full rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-transparent" />
-          </div>
-        </div> */}
       </section>
 
       {/* How it works */}
       <section id="how" className="mx-auto max-w-6xl px-4 pb-24">
         <div className="mb-8 text-center sm:mb-12">
           <h2 className="font-serif text-2xl font-semibold sm:text-3xl">
-            How it works
+            {t("how_its_works")}
           </h2>
           <p className="mt-2 text-muted-foreground">
-            Three simple steps from photo to treatment.
+            {t("three_simple_steps_from_photo_to_treatment")}
           </p>
         </div>
 
@@ -89,14 +80,14 @@ const HomeView = () => {
                 <div className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
                   <Upload className="size-5" />
                 </div>
-                <CardTitle className="text-base">Upload a leaf photo</CardTitle>
+                <CardTitle className="text-base">
+                  {t("upload_a_leaf_photo")}
+                </CardTitle>
               </div>
-              <CardDescription>
-                Use a clear photo in good light. We support JPG, PNG, and HEIC.
-              </CardDescription>
+              <CardDescription>{t("card1_sentence_1")}</CardDescription>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
-              Drag and drop or select from your device. We handle EXIF safely.
+              {t("card1_sentence_2")}
             </CardContent>
           </Card>
 
@@ -106,14 +97,12 @@ const HomeView = () => {
                 <div className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
                   <Sparkles className="size-5" />
                 </div>
-                <CardTitle className="text-base">Get diagnosis</CardTitle>
+                <CardTitle className="text-base">{t("card2_title")}</CardTitle>
               </div>
-              <CardDescription>
-                Model predicts disease label with confidence in seconds.
-              </CardDescription>
+              <CardDescription>{t("card2_sentence_1")}</CardDescription>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
-              See a friendly summary, confidence score, and what it means.
+              {t("card2_sentence_2")}
             </CardContent>
           </Card>
 
@@ -123,17 +112,12 @@ const HomeView = () => {
                 <div className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
                   <Leaf className="size-5" />
                 </div>
-                <CardTitle className="text-base">
-                  Treat with recommendations
-                </CardTitle>
+                <CardTitle className="text-base">{t("card3_title")}</CardTitle>
               </div>
-              <CardDescription>
-                Get steps to mitigate and manage the disease effectively.
-              </CardDescription>
+              <CardDescription>{t("card3_sentence_1")}</CardDescription>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
-              Practical tips, products, and prevention guidance tailored to the
-              crop.
+              {t("card3_sentence_2")}
             </CardContent>
           </Card>
         </div>
