@@ -8,29 +8,32 @@ import { Button } from "@/components/ui/button";
 import { History } from "lucide-react";
 import useScanStore from "@/store/scan.store";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const ScanView = () => {
   const scanData = useScanStore((state) => state.scanData);
   const isScanDataLoading = useScanStore((state) => state.isScanDataLoading);
   const router = useRouter();
+  const t = useTranslations("scan");
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 lg:py-8">
       {/* Header strip */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Scan a leaf</h1>
-          <p className="text-sm text-muted-foreground">
-            Upload a photo to analyze for plant diseases
-          </p>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            {t("title")}
+          </h1>
+          <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
         </div>
         <Button
           variant="ghost"
           className="gap-2 cursor-pointer"
-          title="UI only"
-          aria-label="History"
+          title={t("ui_only")}
+          aria-label={t("history")}
           onClick={() => router.push("/scan-history")}
         >
-          <History className="size-4" /> History
+          <History className="size-4" /> {t("history")}
         </Button>
       </div>
 

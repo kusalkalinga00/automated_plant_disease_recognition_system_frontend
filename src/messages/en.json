@@ -31,5 +31,25 @@
   },
   "FindDisease": {
     "find_disease": "Find Disease"
+  },
+  "scan": {
+    "title": "Scan a leaf",
+    "subtitle": "Upload a photo to analyze for plant diseases",
+    "history": "History",
+    "ui_only": "UI only",
+    "upload_card": {
+      "title": "Upload",
+      "aria_label": "Upload image",
+      "drop_prefix": "Drop an image here",
+      "drop_suffix": "or click to browse",
+      "hint": "JPEG/PNG/WebP · Max 8 MB · Good lighting recommended",
+      "button_title": "Upload selected image",
+      "button_uploading": "Uploading...",
+      "button_label": "Upload & Scan",
+      "sign_in_hint": "Sign in to enable uploading",
+      "toast_success": "Uploaded successfully",
+      "toast_failed": "Upload failed",
+      "retry": "Please try again"
+    }
   }
 }

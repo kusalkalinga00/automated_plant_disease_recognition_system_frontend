@@ -9,8 +9,10 @@ import { useSession } from "next-auth/react";
 import { createScan } from "@/services/scan.services";
 import { toast } from "sonner";
 import useScanStore, { ScanData } from "@/store/scan.store";
+import { useTranslations } from "next-intl";
 
 export const UploadCard: React.FC = () => {
+  const t = useTranslations("scan");
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -32,17 +34,17 @@ export const UploadCard: React.FC = () => {
       setIsScanDataLoading(false);
       if (data.success) {
         setScanData(data.payload as ScanData);
-        toast.success("Uploaded successfully");
+        toast.success(t("upload_card.toast_success"));
         // Invalidate any future queries for scans/history (if added later)
         queryClient.invalidateQueries({ queryKey: ["scans"] });
       } else {
-        toast.error(data.message ?? "Upload failed");
+        toast.error(data.message ?? t("upload_card.toast_failed"));
       }
     },
     onError: (err) => {
       setIsScanDataLoading(false);
-      toast.error("Upload failed", {
-        description: err?.message ?? "Please try again",
+      toast.error(t("upload_card.toast_failed"), {
+        description: err?.message ?? t("upload_card.retry"),
       });
     },
   });
@@ -56,12 +58,12 @@ export const UploadCard: React.FC = () => {
   return (
     <Card className="rounded-xl shadow-sm">
       <CardHeader>
-        <CardTitle className="text-base">Upload</CardTitle>
+        <CardTitle className="text-base">{t("upload_card.title")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div
           role="button"
-          aria-label="Upload image"
+          aria-label={t("upload_card.aria_label")}
           tabIndex={0}
           className="group grid place-items-center gap-3 rounded-xl border border-dashed p-10 text-center outline-none transition-colors hover:border-primary focus-visible:ring-[3px]"
           onClick={onBrowse}
@@ -77,29 +79,31 @@ export const UploadCard: React.FC = () => {
             <Upload className="size-6" />
           </div>
           <div className="text-sm">
-            <span className="font-medium">Drop an image here</span> or click to
-            browse
+            <span className="font-medium">{t("upload_card.drop_prefix")}</span>{" "}
+            {t("upload_card.drop_suffix")}
           </div>
           <p className="text-xs text-muted-foreground">
-            JPEG/PNG/WebP · Max 8 MB · Good lighting recommended
+            {t("upload_card.hint")}
           </p>
         </div>
 
         <div className="flex justify-end">
           <Button
             size="lg"
-            title="Upload selected image"
+            title={t("upload_card.button_title")}
             disabled={
               !selectedFile || !isAuthed || uploadImageMutation.isPending
             }
             onClick={() => uploadImageMutation.mutate()}
           >
-            {uploadImageMutation.isPending ? "Uploading..." : "Upload & Scan"}
+            {uploadImageMutation.isPending
+              ? t("upload_card.button_uploading")
+              : t("upload_card.button_label")}
           </Button>
         </div>
         {!isAuthed && (
           <p className="text-right text-xs text-muted-foreground">
-            Sign in to enable uploading
+            {t("upload_card.sign_in_hint")}
           </p>
         )}
       </CardContent>
