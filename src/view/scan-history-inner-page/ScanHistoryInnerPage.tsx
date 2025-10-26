@@ -5,6 +5,7 @@ import { useScanDetails } from "@/hooks/use-scan-details";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 // Lightweight badge & progress components (could be replaced with existing design system components if present)
 const Badge = ({
@@ -111,10 +112,12 @@ const ScanHistoryInnerPage: React.FC<ScanHistoryInnerPageProps> = ({
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:col-span-5 space-y-4">
             <div className="relative group rounded-xl border overflow-hidden bg-background">
-              <img
+              <Image
                 src={scan.image_url}
                 alt={scan.predicted_label}
                 className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
+                width={600}
+                height={600}
               />
               <div className="absolute top-3 left-3 flex gap-2 flex-wrap">
                 <Badge>{scan.predicted_label}</Badge>

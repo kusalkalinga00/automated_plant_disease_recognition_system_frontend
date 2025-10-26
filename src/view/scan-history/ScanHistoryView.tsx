@@ -5,6 +5,7 @@ import { useScanHistory } from "@/hooks/use-scan-history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 const PAGE_SIZE = 5;
 
@@ -75,10 +76,12 @@ const ScanHistoryView = () => {
                           href={`/scan-history/${scan.id}`}
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <img
+                          <Image
                             src={scan.image_url}
                             alt={scan.predicted_label}
                             className="h-12 w-12 object-cover rounded-md border"
+                            width={48}
+                            height={48}
                           />
                         </Link>
                       </td>
