@@ -49,7 +49,8 @@
       "sign_in_hint": "Sign in to enable uploading",
       "toast_success": "Uploaded successfully",
       "toast_failed": "Upload failed",
-      "retry": "Please try again"
+      "retry": "Please try again",
+      "selected_prefix": "Selected:"
     }
   }
 }
