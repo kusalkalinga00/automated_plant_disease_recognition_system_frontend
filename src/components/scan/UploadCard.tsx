@@ -80,8 +80,13 @@ export const UploadCard: React.FC = () => {
           </div>
           {selectedFile ? (
             <div className="text-sm">
-              <span className="font-medium">{t("upload_card.selected_prefix")}</span>{" "}
-              <span className="truncate inline-block max-w-full align-bottom" title={selectedFile.name}>
+              <span className="font-medium">
+                {t("upload_card.selected_prefix")}
+              </span>{" "}
+              <span
+                className="truncate inline-block max-w-full align-bottom"
+                title={selectedFile.name}
+              >
                 {selectedFile.name}
               </span>
               <span className="sr-only" aria-live="polite">
@@ -90,7 +95,9 @@ export const UploadCard: React.FC = () => {
             </div>
           ) : (
             <div className="text-sm">
-              <span className="font-medium">{t("upload_card.drop_prefix")}</span>{" "}
+              <span className="font-medium">
+                {t("upload_card.drop_prefix")}
+              </span>{" "}
               {t("upload_card.drop_suffix")}
             </div>
           )}
