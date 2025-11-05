@@ -47,7 +47,7 @@ const LocaleSwitcher: React.FC = () => {
             <SelectItem value="ta" className="font-normal">
               {t("tamil")}
             </SelectItem>
-            <SelectItem value="sh" className="font-normal">
+            <SelectItem value="si" className="font-normal">
               {t("sinhala")}
             </SelectItem>
           </SelectGroup>
