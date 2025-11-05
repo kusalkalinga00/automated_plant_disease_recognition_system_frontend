@@ -28,3 +28,28 @@ export async function getDiseases(
     return errorPayload as ApiResponse<null>;
   }
 }
+
+export async function deleteDisease(
+  accessToken: string,
+  diseaseId: number
+): Promise<ApiResponse<null>> {
+  try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/admin/diseases/${diseaseId}`;
+    const response = await axios.delete(endpoint, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data as ApiResponse<null>;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const errorPayload = axiosError.response?.data || {
+      message: "Something went wrong",
+      success: false,
+      payload: null,
+    };
+    return errorPayload as ApiResponse<null>;
+  }
+}
