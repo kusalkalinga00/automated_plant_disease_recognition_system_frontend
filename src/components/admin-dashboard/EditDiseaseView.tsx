@@ -8,11 +8,20 @@ import { IDiseaseInfo } from "@/types/admin.types";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 interface EditDiseaseViewProps {
   diseaseId: string;
@@ -22,6 +31,7 @@ const EditDiseaseView: React.FC<EditDiseaseViewProps> = (props) => {
   const { diseaseId } = props;
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const schema = React.useMemo(
     () =>
@@ -51,7 +61,9 @@ const EditDiseaseView: React.FC<EditDiseaseViewProps> = (props) => {
   });
 
   // Fetch disease info
-  const { data, isLoading, isFetching } = useQuery<ApiResponse<IDiseaseInfo | null>>({
+  const { data, isLoading, isFetching } = useQuery<
+    ApiResponse<IDiseaseInfo | null>
+  >({
     queryKey: ["disease", diseaseId],
     queryFn: () => getDiseaseById(session?.accessToken!, diseaseId),
     enabled: !!session?.accessToken && !!diseaseId,
@@ -84,7 +96,9 @@ const EditDiseaseView: React.FC<EditDiseaseViewProps> = (props) => {
       ]);
     },
     onError: (err: any) => {
-      toast.error("Update failed", { description: err?.message ?? "Please try again" });
+      toast.error("Update failed", {
+        description: err?.message ?? "Please try again",
+      });
     },
   });
 
@@ -93,17 +107,38 @@ const EditDiseaseView: React.FC<EditDiseaseViewProps> = (props) => {
   };
 
   if (isLoading) {
-    return <div className="p-3 text-sm text-muted-foreground">Loading disease...</div>;
+    return (
+      <div className="p-3 text-sm text-muted-foreground">
+        Loading disease...
+      </div>
+    );
   }
   if (!disease) {
-    return <div className="p-3 text-sm text-destructive">Failed to load disease.</div>;
+    return (
+      <div className="p-3 text-sm text-destructive">
+        Failed to load disease.
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4 p-3">
-      <h2 className="text-lg font-semibold tracking-tight">Edit Disease</h2>
+      <div className="flex items-center gap-3">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.back()}
+          aria-label="Go back"
+        >
+          <ArrowLeft className="mr-1.5 size-4" /> Back
+        </Button>
+        <h2 className="text-lg font-semibold tracking-tight">Edit Disease</h2>
+      </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-2xl">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 max-w-2xl"
+        >
           <FormField
             control={form.control}
             name="display_name"
@@ -125,7 +160,11 @@ const EditDiseaseView: React.FC<EditDiseaseViewProps> = (props) => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Enter description" rows={6} {...field} />
+                  <Textarea
+                    placeholder="Enter description"
+                    rows={6}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
