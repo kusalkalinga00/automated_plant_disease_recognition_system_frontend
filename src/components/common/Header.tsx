@@ -68,16 +68,28 @@ const Header = () => {
                     >
                       Sign out
                     </button>
+                    <div className="flex w-full ">
+                      {session.user.is_admin && (
+                        <Link
+                          className="w-full text-left px-4 py-2 text-sm hover:bg-muted/60"
+                          href={"/admin"}
+                        >
+                          Admin
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 )}
               </>
             ) : (
-              <Link
-                href="/login"
-                className="rounded-md px-3 py-2 bg-primary text-primary-foreground text-sm"
-              >
-                Sign in
-              </Link>
+              <div className="flex justify-center items-center">
+                <Link
+                  href="/login"
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-muted/60"
+                >
+                  Sign in
+                </Link>
+              </div>
             )}
           </div>
           <LocaleSwitcher />
