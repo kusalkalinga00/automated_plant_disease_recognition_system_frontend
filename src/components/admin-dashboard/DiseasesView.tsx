@@ -22,19 +22,44 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const DiseasesView = () => {
   const { data: session } = useSession();
 
-  const { data, isLoading } = useQuery<ApiResponse<IDiseaseInfo[] | null>>({
-    queryKey: ["diseases"],
-    queryFn: () => getDiseases(session?.accessToken!, 1, 50),
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(5);
+
+  const { data, isLoading, isFetching } = useQuery<
+    ApiResponse<IDiseaseInfo[] | null>
+  >({
+    queryKey: ["diseases", page, pageSize],
+    queryFn: () => getDiseases(session?.accessToken!, page, pageSize),
     enabled: !!session?.accessToken,
     refetchOnWindowFocus: false,
-    gcTime: 30 * 60 * 1000, // 10 minutes
+    placeholderData: (prev) => prev,
+    gcTime: 30 * 60 * 1000, // 30 minutes
   });
 
   const rows: IDiseaseInfo[] = data?.payload ?? [];
+  const meta = data?.meta;
+  const totalItems = meta?.total ?? meta?.total_items ?? undefined;
+  const totalPages =
+    meta?.total_pages ??
+    (totalItems != null && (meta?.page_size ?? pageSize) > 0
+      ? Math.ceil(totalItems / (meta?.page_size ?? pageSize))
+      : undefined);
+  const hasPrev = page > 1;
+  const hasNext =
+    totalPages != null ? page < totalPages : rows.length === pageSize;
 
   const onEdit = (row: IDiseaseInfo) => {
     toast.info("Edit not implemented", { description: row.display_name });
@@ -103,10 +128,10 @@ const DiseasesView = () => {
   });
 
   return (
-    <div className="space-y-4 p-3">
+    <div className="space-y-4 p-3 w-full">
       <h1 className="text-xl font-semibold tracking-tight">Diseases</h1>
-      <div className="rounded-xl border">
-        <Table>
+      <div className="rounded-xl border w-full">
+        <Table className="w-full">
           <TableCaption>
             {isLoading
               ? "Loading diseases..."
@@ -159,6 +184,71 @@ const DiseasesView = () => {
                 )}
           </TableBody>
         </Table>
+      </div>
+      {/* Pagination controls */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="text-sm text-muted-foreground">
+          {totalItems != null && rows.length > 0 ? (
+            <span>
+              Showing {(page - 1) * pageSize + 1}–
+              {(page - 1) * pageSize + rows.length} of {totalItems}
+            </span>
+          ) : rows.length > 0 ? (
+            <span>
+              Showing {(page - 1) * pageSize + 1}–
+              {(page - 1) * pageSize + rows.length}
+            </span>
+          ) : (
+            <span>—</span>
+          )}
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">Rows per page</span>
+            <Select
+              defaultValue={String(pageSize)}
+              onValueChange={(v) => {
+                const next = parseInt(v, 10);
+                setPage(1);
+                setPageSize(next);
+              }}
+            >
+              <SelectTrigger className="h-8 w-[88px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Rows</SelectLabel>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="25">25</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!hasPrev || isFetching}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+            >
+              Prev
+            </Button>
+            <div className="px-2 text-sm tabular-nums">
+              Page {page}
+              {totalPages != null ? ` of ${totalPages}` : ""}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!hasNext || isFetching}
+              onClick={() => setPage((p) => p + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
