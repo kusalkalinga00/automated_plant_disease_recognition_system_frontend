@@ -53,3 +53,57 @@ export async function deleteDisease(
     return errorPayload as ApiResponse<null>;
   }
 }
+
+export async function getDiseaseById(
+  accessToken: string,
+  diseaseId: string
+): Promise<ApiResponse<IDiseaseInfo | null>> {
+  try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/admin/diseases/${diseaseId}`;
+    const response = await axios.get(endpoint, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data as ApiResponse<IDiseaseInfo>;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const errorPayload = axiosError.response?.data || {
+      message: "Something went wrong",
+      success: false,
+      payload: null,
+    };
+    return errorPayload as ApiResponse<null>;
+  }
+}
+
+export async function updateDisease(
+  accessToken: string,
+  diseaseId: string,
+  data: {
+    display_name: string;
+    description: string;
+  }
+): Promise<ApiResponse<IDiseaseInfo | null>> {
+  try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/admin/diseases/${diseaseId}`;
+    const response = await axios.put(endpoint, data, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data as ApiResponse<IDiseaseInfo>;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const errorPayload = axiosError.response?.data || {
+      message: "Something went wrong",
+      success: false,
+      payload: null,
+    };
+    return errorPayload as ApiResponse<null>;
+  }
+}
