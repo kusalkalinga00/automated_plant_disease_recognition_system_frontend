@@ -1,7 +1,5 @@
-import React from "react";
+import DiseasesView from "@/components/admin-dashboard/DiseasesView";
 
-const AdminPage = () => {
-  return <div>page</div>;
-};
-
-export default AdminPage;
+export default async function AdminPage() {
+  return <DiseasesView />;
+}
