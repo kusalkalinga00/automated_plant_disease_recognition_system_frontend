@@ -37,7 +37,9 @@ interface TreatmentsEditViewProps {
   treatmentId: string;
 }
 
-const TreatmentsEditView: React.FC<TreatmentsEditViewProps> = ({ treatmentId }) => {
+const TreatmentsEditView: React.FC<TreatmentsEditViewProps> = ({
+  treatmentId,
+}) => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -53,7 +55,10 @@ const TreatmentsEditView: React.FC<TreatmentsEditViewProps> = ({ treatmentId }) 
         dosage: z.string().min(1, "Dosage is required"),
         locale: z
           .string()
-          .refine((v) => (locales as readonly string[]).includes(v), "Invalid locale"),
+          .refine(
+            (v) => (locales as readonly string[]).includes(v),
+            "Invalid locale"
+          ),
         instructions: z
           .string()
           .min(1, "Instructions are required")
@@ -125,23 +130,39 @@ const TreatmentsEditView: React.FC<TreatmentsEditViewProps> = ({ treatmentId }) 
   };
 
   if (isLoading) {
-    return <div className="p-3 text-sm text-muted-foreground">Loading treatment...</div>;
+    return (
+      <div className="p-3 text-sm text-muted-foreground">
+        Loading treatment...
+      </div>
+    );
   }
   if (!treatment) {
-    return <div className="p-3 text-sm text-destructive">Failed to load treatment.</div>;
+    return (
+      <div className="p-3 text-sm text-destructive">
+        Failed to load treatment.
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4 p-3">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()} aria-label="Go back">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.back()}
+          aria-label="Go back"
+        >
           <ArrowLeft className="mr-1.5 size-4" /> Back
         </Button>
         <h2 className="text-lg font-semibold tracking-tight">Edit Treatment</h2>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-2xl">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 max-w-2xl"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -224,7 +245,11 @@ const TreatmentsEditView: React.FC<TreatmentsEditViewProps> = ({ treatmentId }) 
               <FormItem>
                 <FormLabel>Instructions</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Enter instructions" rows={6} {...field} />
+                  <Textarea
+                    placeholder="Enter instructions"
+                    rows={6}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
