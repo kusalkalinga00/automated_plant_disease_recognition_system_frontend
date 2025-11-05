@@ -18,6 +18,15 @@ export const DetailsPanel: React.FC = () => {
     (state) => state.setTreatmentsLocale
   );
 
+  console.log("scanData : ", scanData);
+  console.log("treatmentsLocale : ", treatmentsLocale);
+
+  const filteredTreatments = React.useMemo(
+    () =>
+      (scanData?.treatments ?? []).filter((t) => t.locale === treatmentsLocale),
+    [scanData, treatmentsLocale]
+  );
+
   return (
     <Card className="rounded-xl shadow-sm">
       <CardHeader className="flex-row items-center justify-between">
@@ -33,7 +42,7 @@ export const DetailsPanel: React.FC = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="en">English</SelectItem>
-            <SelectItem value="sh">සිංහල</SelectItem>
+            <SelectItem value="si">සිංහල</SelectItem>
             <SelectItem value="ta">தமிழ்</SelectItem>
           </SelectContent>
         </Select>
@@ -54,7 +63,7 @@ export const DetailsPanel: React.FC = () => {
           <div className="space-y-3">
             <h4 className="text-sm font-medium">Treatments</h4>
             <div className="space-y-3">
-              {scanData?.treatments.map((t) => (
+              {filteredTreatments.map((t) => (
                 <div key={t.title} className="rounded-lg border p-3">
                   <div className="mb-1 flex items-center justify-between gap-2">
                     <span
@@ -76,6 +85,11 @@ export const DetailsPanel: React.FC = () => {
                   </div>
                 </div>
               ))}
+              {filteredTreatments.length === 0 && (
+                <div className="text-xs text-muted-foreground">
+                  No treatments available for the selected language.
+                </div>
+              )}
             </div>
           </div>
         </div>
