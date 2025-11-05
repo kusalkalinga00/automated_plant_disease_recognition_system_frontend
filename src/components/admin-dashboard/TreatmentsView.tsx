@@ -165,7 +165,12 @@ const TreatmentsView: React.FC = () => {
 
   return (
     <div className="space-y-4 p-3 w-full">
-      <h1 className="text-xl font-semibold tracking-tight">Treatments</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-semibold tracking-tight">Treatments</h1>
+        <Button onClick={() => router.push("/treatments/create")}>
+          Add New Treatment
+        </Button>
+      </div>
       <div className="rounded-xl border w-full">
         <Table className="w-full">
           <TableCaption>
