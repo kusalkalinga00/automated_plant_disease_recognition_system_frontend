@@ -7,14 +7,26 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  BriefcaseMedicalIcon,
+  Calendar,
+  Home,
+  Inbox,
+  Search,
+  Settings,
+} from "lucide-react";
 import Link from "next/link";
 
 const menuItems = [
   {
-    title: "Admin Dashboard",
+    title: "Diseases",
     url: "/admin",
     icon: Home,
+  },
+  {
+    title: "Treatments",
+    url: "/treatments",
+    icon: BriefcaseMedicalIcon,
   },
 ];
 
