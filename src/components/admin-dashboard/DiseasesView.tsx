@@ -1,8 +1,8 @@
 "use client";
-import { getDiseases } from "@/services/admin.services";
+import { deleteDisease, getDiseases } from "@/services/admin.services";
 import { IDiseaseInfo } from "@/types/admin.types";
 import { ApiResponse } from "@/types/common.types";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import React from "react";
 import {
@@ -34,6 +34,7 @@ import {
 
 const DiseasesView = () => {
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
 
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
@@ -64,8 +65,42 @@ const DiseasesView = () => {
   const onEdit = (row: IDiseaseInfo) => {
     toast.info("Edit not implemented", { description: row.display_name });
   };
-  const onDelete = (row: IDiseaseInfo) => {
-    toast.info("Delete not implemented", { description: row.display_name });
+  const [deletingId, setDeletingId] = React.useState<string | null>(null);
+
+  const deleteMutation = useMutation({
+    mutationKey: ["disease", "delete"],
+    mutationFn: async ({ id }: { id: string }) => {
+      if (!session?.accessToken) throw new Error("Not authenticated");
+      return await deleteDisease(session.accessToken, id);
+    },
+    onMutate: async (variables) => {
+      setDeletingId(variables.id);
+    },
+    onSuccess: async (res) => {
+      // Invalidate all paginated diseases queries
+      await queryClient.invalidateQueries({ queryKey: ["diseases"] });
+      toast.success(res?.message || "Deleted successfully");
+      // If we just removed the last row on a page (except page 1), try going back a page
+      if (rows.length === 1 && page > 1) {
+        setPage((p) => Math.max(1, p - 1));
+      }
+    },
+    onError: (err: any) => {
+      toast.error("Delete failed", {
+        description: err?.message ?? "Please try again",
+      });
+    },
+    onSettled: () => {
+      setDeletingId(null);
+    },
+  });
+
+  const onDelete = async (row: IDiseaseInfo) => {
+    await toast.promise(deleteMutation.mutateAsync({ id: row.id }), {
+      loading: "Deleting...",
+      success: "Deleted",
+      error: (err) => err?.message ?? "Delete failed",
+    });
   };
 
   const columns = React.useMemo<ColumnDef<IDiseaseInfo>[]>(
@@ -109,9 +144,12 @@ const DiseasesView = () => {
               <Button
                 size="sm"
                 variant="destructive"
+                disabled={deletingId === item.id || deleteMutation.isPending}
                 onClick={() => onDelete(item)}
               >
-                Delete
+                {deletingId === item.id && deleteMutation.isPending
+                  ? "Deleting..."
+                  : "Delete"}
               </Button>
             </div>
           );

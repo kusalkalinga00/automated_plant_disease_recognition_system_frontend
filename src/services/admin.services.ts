@@ -31,7 +31,7 @@ export async function getDiseases(
 
 export async function deleteDisease(
   accessToken: string,
-  diseaseId: number
+  diseaseId: string
 ): Promise<ApiResponse<null>> {
   try {
     const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/admin/diseases/${diseaseId}`;
