@@ -3,24 +3,40 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import useScanStore from "@/store/scan.store";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const DetailsPanel: React.FC = () => {
   const scanData = useScanStore((state) => state.scanData);
+  const treatmentsLocale = useScanStore((state) => state.treatmentsLocale);
+  const setTreatmentsLocale = useScanStore(
+    (state) => state.setTreatmentsLocale
+  );
 
   return (
     <Card className="rounded-xl shadow-sm">
       <CardHeader className="flex-row items-center justify-between">
         <CardTitle className="text-base">Details</CardTitle>
         {/* Locale selector (visual only) */}
-        <select
-          aria-label="Locale"
-          className="rounded-md border bg-background px-2 py-1 text-sm shadow-sm"
-          defaultValue="en"
+        <Select
+          defaultValue={treatmentsLocale}
+          value={treatmentsLocale}
+          onValueChange={setTreatmentsLocale}
         >
-          <option value="en">en</option>
-          <option value="si">si</option>
-          <option value="ta">ta</option>
-        </select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Language" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="en">English</SelectItem>
+            <SelectItem value="sh">සිංහල</SelectItem>
+            <SelectItem value="ta">தமிழ்</SelectItem>
+          </SelectContent>
+        </Select>
       </CardHeader>
       <CardContent>
         <div className="grid gap-6 md:grid-cols-2">

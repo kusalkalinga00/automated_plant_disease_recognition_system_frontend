@@ -13,6 +13,8 @@ interface ScanStore {
   clearScanData: () => void;
   isScanDataLoading: boolean;
   setIsScanDataLoading: (loading: boolean) => void;
+  treatmentsLocale: "sh" | "ta" | "en";
+  setTreatmentsLocale: (locale: "sh" | "ta" | "en") => void;
 }
 
 const useScanStore = create<ScanStore>()((set) => ({
@@ -22,6 +24,9 @@ const useScanStore = create<ScanStore>()((set) => ({
   isScanDataLoading: false,
   setIsScanDataLoading: (loading: boolean) =>
     set({ isScanDataLoading: loading }),
+  treatmentsLocale: "en",
+  setTreatmentsLocale: (locale: "sh" | "ta" | "en") =>
+    set({ treatmentsLocale: locale }),
 }));
 
 export default useScanStore;
