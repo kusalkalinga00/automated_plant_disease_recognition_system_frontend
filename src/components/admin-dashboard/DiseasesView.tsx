@@ -31,10 +31,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 const DiseasesView = () => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
@@ -63,7 +65,7 @@ const DiseasesView = () => {
     totalPages != null ? page < totalPages : rows.length === pageSize;
 
   const onEdit = (row: IDiseaseInfo) => {
-    toast.info("Edit not implemented", { description: row.display_name });
+    router.push(`/admin/disease/${row.id}`);
   };
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
 
@@ -167,7 +169,10 @@ const DiseasesView = () => {
 
   return (
     <div className="space-y-4 p-3 w-full">
-      <h1 className="text-xl font-semibold tracking-tight">Diseases</h1>
+      <div className="w-full flex justify-between items-center">
+        <h1 className="text-xl font-semibold tracking-tight">Diseases</h1>
+        <Button onClick={() => router.push("/admin/disease")}>Create</Button>
+      </div>
       <div className="rounded-xl border w-full">
         <Table className="w-full">
           <TableCaption>
