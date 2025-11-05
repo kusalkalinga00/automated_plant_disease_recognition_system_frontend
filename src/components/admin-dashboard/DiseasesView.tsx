@@ -169,7 +169,10 @@ const DiseasesView = () => {
 
   return (
     <div className="space-y-4 p-3 w-full">
-      <h1 className="text-xl font-semibold tracking-tight">Diseases</h1>
+      <div className="w-full flex justify-between items-center">
+        <h1 className="text-xl font-semibold tracking-tight">Diseases</h1>
+        <Button onClick={() => router.push("/admin/disease")}>Create</Button>
+      </div>
       <div className="rounded-xl border w-full">
         <Table className="w-full">
           <TableCaption>

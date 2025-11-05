@@ -107,3 +107,31 @@ export async function updateDisease(
     return errorPayload as ApiResponse<null>;
   }
 }
+
+export async function createDisease(
+  accessToken: string,
+  data: {
+    label: string;
+    display_name: string;
+    description: string;
+  }
+): Promise<ApiResponse<IDiseaseInfo | null>> {
+  try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/admin/diseases`;
+    const response = await axios.post(endpoint, data, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data as ApiResponse<IDiseaseInfo>;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    const errorPayload = axiosError.response?.data || {
+      message: "Something went wrong",
+      success: false,
+      payload: null,
+    };
+    return errorPayload as ApiResponse<null>;
+  }
+}
