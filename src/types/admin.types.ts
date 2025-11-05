@@ -5,4 +5,13 @@ export interface IDiseaseInfo {
   description: string;
 }
 
-
+export interface ITreatmentInfo {
+  id: string;
+  disease_id: string;
+  type: string;
+  title: string;
+  instructions: string;
+  dosage: string;
+  locale: string;
+  disease_label: string;
+}
