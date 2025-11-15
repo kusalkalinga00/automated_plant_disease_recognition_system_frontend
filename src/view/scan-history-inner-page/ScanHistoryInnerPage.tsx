@@ -6,6 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // Lightweight badge & progress components (could be replaced with existing design system components if present)
 const Badge = ({
@@ -54,6 +61,11 @@ const ScanHistoryInnerPage: React.FC<ScanHistoryInnerPageProps> = ({
   const disease = data?.disease;
   const treatments = data?.treatments || [];
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
+
+  const filteredTreatments = useMemo(() => {
+    return treatments.filter((t) => t.locale === selectedLanguage);
+  }, [treatments, selectedLanguage]);
 
   const truncatedDescription = useMemo(() => {
     if (!disease?.description) return "";
@@ -201,13 +213,26 @@ const ScanHistoryInnerPage: React.FC<ScanHistoryInnerPageProps> = ({
 
             {treatments.length > 0 && (
               <Card>
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-3 flex flex-row items-center justify-between">
                   <CardTitle className="text-base font-semibold leading-tight">
                     Recommended Treatments
                   </CardTitle>
+                  <Select
+                    value={selectedLanguage}
+                    onValueChange={setSelectedLanguage}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="en">English</SelectItem>
+                      <SelectItem value="si">සිංහල</SelectItem>
+                      <SelectItem value="ta">தமிழ்</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </CardHeader>
                 <CardContent className="grid gap-3 sm:grid-cols-2">
-                  {treatments.map((t) => (
+                  {filteredTreatments.map((t) => (
                     <div
                       key={t.id}
                       className="group relative rounded-lg border p-3 bg-background hover:shadow-sm transition-shadow"
